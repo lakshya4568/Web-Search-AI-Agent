@@ -82,7 +82,7 @@ function App() {
           )}
 
           {/* Loading State */}
-          {isLoading && <LoadingSpinner topic={topic} />}
+          {isLoading && <LoadingSpinner topic={topic} useWebSearch={useWebSearch} useWikipedia={useWikipedia} />}
 
           {/* Error State */}
           {error && !isLoading && (

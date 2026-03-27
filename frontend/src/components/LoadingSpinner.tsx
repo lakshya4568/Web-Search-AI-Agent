@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 interface LoadingSpinnerProps {
   topic: string;
+  useWebSearch: boolean;
+  useWikipedia: boolean;
 }
 
-const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ topic }) => {
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ topic, useWebSearch, useWikipedia }) => {
   const [progress, setProgress] = useState(10);
   
   useEffect(() => {
@@ -37,17 +39,21 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ topic }) => {
           </div>
           
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse">
-              <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>search</span>
-              Searching Web
-            </div>
-            <div 
-              className="flex items-center gap-1.5 px-3 py-1 text-on-surface-variant bg-surface-container rounded-full text-[10px] font-bold uppercase tracking-wider"
-              style={{ animation: 'fade-in-up 0.5s ease-out 1.5s both' }}
-            >
-              <span className="material-symbols-outlined text-[12px]">book</span>
-              Reading Wikipedia
-            </div>
+            {useWebSearch && (
+              <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse">
+                <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>search</span>
+                Firecrawl API
+              </div>
+            )}
+            {useWikipedia && (
+              <div 
+                className="flex items-center gap-1.5 px-3 py-1 text-on-surface-variant bg-surface-container rounded-full text-[10px] font-bold uppercase tracking-wider"
+                style={{ animation: 'fade-in-up 0.5s ease-out 1.5s both' }}
+              >
+                <span className="material-symbols-outlined text-[12px]">book</span>
+                Wikipedia API
+              </div>
+            )}
             <div 
               className="flex items-center gap-1.5 px-3 py-1 text-on-surface-variant bg-surface-container rounded-full text-[10px] font-bold uppercase tracking-wider"
               style={{ animation: 'fade-in-up 0.5s ease-out 3s both' }}
