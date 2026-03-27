@@ -17,10 +17,12 @@ app.add_middleware(
 
 class ResearchRequest(BaseModel):
     topic: str
+    use_web_search: bool = True
+    use_wikipedia: bool = True
 
 @app.post("/research")
 async def research(request: ResearchRequest):
-    result = generate_report(request.topic)
+    result = generate_report(request.topic, request.use_web_search, request.use_wikipedia)
     return result
 
 @app.get("/health")

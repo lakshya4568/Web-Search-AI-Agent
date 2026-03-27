@@ -1,72 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface LoadingSpinnerProps {
   topic: string;
 }
 
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ topic }) => {
-  const steps = [
-    { icon: '🔍', text: 'Searching the web...', delay: '0s' },
-    { icon: '📚', text: 'Scanning Wikipedia...', delay: '0.2s' },
-    { icon: '🧠', text: 'Analyzing sources...', delay: '0.4s' },
-    { icon: '📝', text: 'Compiling report...', delay: '0.6s' },
-  ];
+  const [progress, setProgress] = useState(10);
+  
+  useEffect(() => {
+    // Fake progress bar increment
+    const interval = setInterval(() => {
+      setProgress(prev => (prev < 90 ? prev + Math.random() * 15 : prev));
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="w-full max-w-2xl mx-auto animate-fade-in-up">
-      <div className="relative">
-        {/* Glow background */}
-        <div className="absolute inset-0 bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/10 rounded-2xl blur-xl" />
-
-        <div className="relative bg-gray-800/80 backdrop-blur-xl rounded-2xl border border-gray-700/50 p-8 animate-pulse-glow">
-          {/* Central spinner */}
-          <div className="flex flex-col items-center mb-8">
-            <div className="relative w-20 h-20 mb-6">
-              {/* Outer ring */}
-              <div className="absolute inset-0 border-4 border-gray-700 rounded-full" />
-              <div className="absolute inset-0 border-4 border-transparent border-t-indigo-500 border-r-indigo-400 rounded-full animate-spin" />
-              {/* Inner ring */}
-              <div className="absolute inset-2 border-4 border-transparent border-b-purple-500 border-l-purple-400 rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
-              {/* Center dot */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-3 h-3 bg-indigo-400 rounded-full animate-pulse" />
-              </div>
-            </div>
-            <h3 className="text-xl font-semibold text-white mb-2">
-              Researching...
-            </h3>
-            <p className="text-indigo-300 text-center font-medium">
-              "{topic}"
-            </p>
-          </div>
-
-          {/* Animated steps */}
-          <div className="space-y-3">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 p-3 bg-gray-900/50 rounded-xl border border-gray-700/30"
-                style={{
-                  animation: `fade-in-up 0.5s ease-out ${step.delay} both`,
-                }}
-              >
-                <span className="text-xl animate-pulse" style={{ animationDelay: step.delay }}>
-                  {step.icon}
-                </span>
-                <div className="flex-1">
-                  <div className="h-2 animate-shimmer rounded-full" style={{ width: `${70 + index * 8}%` }} />
-                </div>
-                <span className="text-xs text-gray-500">{step.text}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Estimated time */}
-          <p className="text-center text-gray-500 text-sm mt-6">
-            This may take 30–90 seconds depending on the topic complexity
-          </p>
+    <div className="w-full max-w-4xl mx-auto animate-fade-in-up mt-8">
+      {/* Agent Status Card */}
+      <section className="bg-surface-container-lowest rounded-2xl overflow-hidden ghost-border ambient-shadow border-l-4 border-primary">
+        <div className="h-1.5 w-full bg-surface-container-high relative">
+          <div 
+            className="absolute inset-y-0 left-0 signature-gradient transition-all duration-1000 ease-out" 
+            style={{ width: `${progress}%` }}
+          />
         </div>
-      </div>
+        <div className="p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-primary/10 rounded-full text-primary">
+              <span className="material-symbols-outlined">cognition</span>
+            </div>
+            <div>
+              <h3 className="font-bold text-lg font-headline text-on-surface">Agent is Researching...</h3>
+              <p className="text-on-surface-variant text-sm line-clamp-1 break-all">Synthesizing data for "{topic}"</p>
+            </div>
+          </div>
+          
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse">
+              <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>search</span>
+              Searching Web
+            </div>
+            <div 
+              className="flex items-center gap-1.5 px-3 py-1 text-on-surface-variant bg-surface-container rounded-full text-[10px] font-bold uppercase tracking-wider"
+              style={{ animation: 'fade-in-up 0.5s ease-out 1.5s both' }}
+            >
+              <span className="material-symbols-outlined text-[12px]">book</span>
+              Reading Wikipedia
+            </div>
+            <div 
+              className="flex items-center gap-1.5 px-3 py-1 text-on-surface-variant bg-surface-container rounded-full text-[10px] font-bold uppercase tracking-wider"
+              style={{ animation: 'fade-in-up 0.5s ease-out 3s both' }}
+            >
+              <span className="material-symbols-outlined text-[12px]">description</span>
+              Generating Report
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

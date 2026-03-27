@@ -31,31 +31,48 @@ Topic: {input}
 {agent_scratchpad}
 """)
 
-_agent_executor = None
+_llm = None
+_agent_executors = {}
 
-def get_agent_executor():
-    """Lazy-initialize the agent executor so the server can start without API keys."""
-    global _agent_executor
-    if _agent_executor is None:
-        api_key = os.getenv("NVIDIA_API_KEY")
-        if not api_key or api_key.startswith("nvapi-xxxx"):
-            raise ValueError("Please set a valid NVIDIA_API_KEY in backend/.env")
+def get_agent_executor(use_web_search=True, use_wikipedia=True):
+    """Lazy-initialize and cache the agent executor based on selected tools."""
+    global _llm, _agent_executors
+    
+    key = (use_web_search, use_wikipedia)
+    if key in _agent_executors:
+        return _agent_executors[key]
 
-        llm = ChatNVIDIA(
+    api_key = os.getenv("NVIDIA_API_KEY")
+    if not api_key or api_key.startswith("nvapi-xxxx"):
+        raise ValueError("Please set a valid NVIDIA_API_KEY in backend/.env")
+
+    if _llm is None:
+        _llm = ChatNVIDIA(
             model="meta/llama-3.1-70b-instruct",
             nvidia_api_key=api_key,
             temperature=0.3,
             max_tokens=4096,
         )
 
-        react_agent = create_react_agent(llm=llm, tools=tools, prompt=REACT_PROMPT)
+    tools = []
+    if use_web_search:
+        tools.append(web_search)
+    if use_wikipedia:
+        tools.append(wikipedia_search)
 
-        _agent_executor = AgentExecutor(
-            agent=react_agent,
-            tools=tools,
-            verbose=True,
-            max_iterations=6,
-            handle_parsing_errors=True,
-            return_intermediate_steps=True,
-        )
-    return _agent_executor
+    if not tools:
+        raise ValueError("At least one tool must be selected")
+
+    react_agent = create_react_agent(llm=_llm, tools=tools, prompt=REACT_PROMPT)
+
+    executor = AgentExecutor(
+        agent=react_agent,
+        tools=tools,
+        verbose=True,
+        max_iterations=6,
+        handle_parsing_errors=True,
+        return_intermediate_steps=True,
+    )
+    
+    _agent_executors[key] = executor
+    return executor

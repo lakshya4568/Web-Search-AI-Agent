@@ -3,6 +3,10 @@ import React from 'react';
 interface TopicInputProps {
   topic: string;
   setTopic: (topic: string) => void;
+  useWebSearch: boolean;
+  setUseWebSearch: (val: boolean) => void;
+  useWikipedia: boolean;
+  setUseWikipedia: (val: boolean) => void;
   onSubmit: () => void;
   isLoading: boolean;
 }
@@ -15,69 +19,102 @@ const suggestedTopics = [
   'Blockchain and Decentralized Finance',
 ];
 
-const TopicInput: React.FC<TopicInputProps> = ({ topic, setTopic, onSubmit, isLoading }) => {
+const TopicInput: React.FC<TopicInputProps> = ({ 
+  topic, setTopic, useWebSearch, setUseWebSearch, useWikipedia, setUseWikipedia, onSubmit, isLoading 
+}) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && topic.trim() && !isLoading) {
+    if (e.key === 'Enter' && topic.trim() && !isLoading && (useWebSearch || useWikipedia)) {
       onSubmit();
     }
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto animate-fade-in-up">
-      {/* Main Input Area */}
-      <div className="relative group">
-        <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500 blur-sm" />
-        <div className="relative bg-gray-800/90 backdrop-blur-xl rounded-2xl border border-gray-700/50 p-6">
-          <label htmlFor="topic-input" className="block text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider">
-            Research Topic
-          </label>
-          <div className="flex gap-3">
-            <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <input
-                id="topic-input"
-                type="text"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Enter a topic to research..."
-                disabled={isLoading}
-                className="w-full pl-12 pr-4 py-4 bg-gray-900/80 text-white placeholder-gray-500 rounded-xl border border-gray-600/50 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/30 focus:outline-none transition-all duration-300 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-              />
+    <div className="w-full max-w-4xl mx-auto space-y-12 animate-fade-in-up">
+      {/* Hero Section */}
+      <header className="text-center space-y-4 pt-8">
+        <h1 className="text-5xl md:text-6xl font-extrabold font-headline tracking-tight text-on-surface leading-tight">
+          Your <span className="text-transparent bg-clip-text signature-gradient">Autonomous AI Research</span> Agent
+        </h1>
+        <p className="text-on-surface-variant text-lg max-w-xl mx-auto font-body">
+          Enter any topic. The agent searches, analyzes, and writes a full report in seconds.
+        </p>
+      </header>
+
+      {/* Input Card */}
+      <section className="relative">
+        <div className="bg-surface-container-lowest ambient-shadow rounded-2xl p-6 space-y-6 ghost-border">
+          <div className="relative">
+            <input
+              className="w-full bg-surface-container-low border-none rounded-xl py-4 pl-6 pr-12 text-lg focus:ring-2 focus:ring-primary/20 placeholder-outline text-on-surface focus:outline-none transition-shadow"
+              placeholder="e.g. Impact of AI in Healthcare..."
+              type="text"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={isLoading}
+            />
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">
+              search
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={() => setUseWebSearch(!useWebSearch)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors group border ${useWebSearch ? 'bg-primary-container/20 border-primary text-primary' : 'bg-surface-container-low border-transparent text-on-surface hover:bg-surface-container-high'}`}
+              >
+                <span className="material-symbols-outlined group-hover:scale-110 transition-transform">
+                  language
+                </span>
+                <span className="text-sm font-semibold font-label">Web Search</span>
+              </button>
+              <button 
+                onClick={() => setUseWikipedia(!useWikipedia)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-colors group border ${useWikipedia ? 'bg-green-100 border-green-600 text-green-700' : 'bg-surface-container-low border-transparent text-on-surface hover:bg-surface-container-high'}`}
+              >
+                <span className="material-symbols-outlined group-hover:scale-110 transition-transform">
+                  menu_book
+                </span>
+                <span className="text-sm font-semibold font-label">Wikipedia</span>
+              </button>
             </div>
             <button
               id="generate-report-btn"
               onClick={onSubmit}
-              disabled={!topic.trim() || isLoading}
-              className="px-8 py-4 bg-linear-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:from-indigo-600 disabled:hover:to-indigo-500 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 whitespace-nowrap"
+              disabled={!topic.trim() || isLoading || (!useWebSearch && !useWikipedia)}
+              className="signature-gradient text-white px-8 py-3 rounded-full font-bold flex items-center gap-2 hover:opacity-90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
               Generate Report
+              <span className="material-symbols-outlined">arrow_forward</span>
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Suggested Topics */}
-      <div className="mt-5 flex flex-wrap gap-2 justify-center">
-        <span className="text-xs text-gray-500 mr-1 self-center">Try:</span>
-        {suggestedTopics.map((suggestion) => (
-          <button
-            key={suggestion}
-            onClick={() => setTopic(suggestion)}
-            disabled={isLoading}
-            className="px-3 py-1.5 text-xs bg-gray-800/60 text-gray-400 rounded-full border border-gray-700/50 hover:border-indigo-500/50 hover:text-indigo-300 hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {suggestion}
-          </button>
-        ))}
-      </div>
+        {/* Examples Row */}
+        <div className="mt-8 flex flex-wrap items-center gap-3 justify-center md:justify-start">
+          <span className="text-on-surface-variant text-sm font-medium font-label">Try an example:</span>
+          {suggestedTopics.map((suggestion, index) => {
+            const colors = [
+              'bg-primary-fixed text-on-primary-fixed hover:bg-primary-fixed-dim',
+              'bg-secondary-fixed text-on-secondary-fixed hover:bg-secondary-fixed-dim',
+              'bg-tertiary-fixed text-on-tertiary-fixed hover:bg-tertiary-fixed-dim',
+              'bg-orange-100 text-orange-900 hover:bg-orange-200'
+            ];
+            const colorClass = colors[index % colors.length];
+            return (
+              <button
+                key={suggestion}
+                onClick={() => setTopic(suggestion)}
+                disabled={isLoading}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${colorClass}`}
+              >
+                {suggestion}
+              </button>
+            );
+          })}
+        </div>
+      </section>
     </div>
   );
 };

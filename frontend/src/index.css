@@ -1,8 +1,76 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', sans-serif;
+  --color-primary: #4648d4;
+  --color-on-error: #ffffff;
+  --color-surface-bright: #f8f9ff;
+  --color-primary-fixed-dim: #c0c1ff;
+  --color-secondary: #6b38d4;
+  --color-on-tertiary: #ffffff;
+  --color-secondary-fixed: #e9ddff;
+  --color-surface-dim: #cbdbf5;
+  --color-error-container: #ffdad6;
+  --color-on-tertiary-fixed: #001e2f;
+  --color-on-surface: #0b1c30;
+  --color-secondary-container: #8455ef;
+  --color-tertiary: #00628d;
+  --color-surface-container-high: #dce9ff;
+  --color-surface-tint: #494bd6;
+  --color-on-secondary-container: #fffbff;
+  --color-background: #f8f9ff;
+  --color-on-secondary-fixed-variant: #5516be;
+  --color-on-primary-fixed-variant: #2f2ebe;
+  --color-outline: #767586;
+  --color-on-surface-variant: #464554;
+  --color-tertiary-container: #007cb1;
+  --color-surface: #f8f9ff;
+  --color-on-primary-container: #fffbff;
+  --color-on-secondary: #ffffff;
+  --color-on-tertiary-fixed-variant: #004c6e;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-tertiary-container: #fcfcff;
+  --color-surface-container-highest: #d3e4fe;
+  --color-primary-container: #6063ee;
+  --color-tertiary-fixed-dim: #89ceff;
+  --color-outline-variant: #c7c4d7;
+  --color-surface-container: #e5eeff;
+  --color-surface-container-low: #eff4ff;
+  --color-surface-variant: #d3e4fe;
+  --color-on-primary: #ffffff;
+  --color-inverse-on-surface: #eaf1ff;
+  --color-on-secondary-fixed: #23005c;
+  --color-tertiary-fixed: #c9e6ff;
+  --color-inverse-primary: #c0c1ff;
+  --color-on-primary-fixed: #07006c;
+  --color-secondary-fixed-dim: #d0bcff;
+  --color-primary-fixed: #e1e0ff;
+  --color-inverse-surface: #213145;
+  --color-on-error-container: #93000a;
+  --color-on-background: #0b1c30;
+  --color-error: #ba1a1a;
+
+  --font-headline: "Plus Jakarta Sans", "system-ui", sans-serif;
+  --font-body: "Inter", "system-ui", sans-serif;
+  --font-label: "Inter", "system-ui", sans-serif;
+
+  --radius-xl: 3rem;
+  --radius-lg: 2rem;
+  --radius-DEFAULT: 1rem;
+}
+
+@utility signature-gradient {
+  background-image: linear-gradient(135deg, #4648d4 0%, #6063ee 100%);
+}
+@utility ambient-shadow {
+  box-shadow: 0 4px 32px rgba(73, 75, 214, 0.08);
+}
+@utility ghost-border {
+  border: 1px solid rgba(199, 196, 215, 0.15);
+}
+@utility glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 /* Global Styles */
@@ -11,7 +79,7 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -40,8 +108,8 @@ body {
   font-weight: 700;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
-  color: white;
-  border-bottom: 1px solid rgb(55 65 81);
+  color: var(--color-primary);
+  border-bottom: 1px solid var(--color-surface-variant);
   padding-bottom: 0.5rem;
 }
 
@@ -50,7 +118,7 @@ body {
   font-weight: 600;
   margin-top: 1.25rem;
   margin-bottom: 0.5rem;
-  color: rgb(199 210 254);
+  color: var(--color-secondary);
 }
 
 .prose h3 {
@@ -58,14 +126,14 @@ body {
   font-weight: 600;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
-  color: rgb(165 180 252);
+  color: var(--color-tertiary);
 }
 
 .prose p {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   line-height: 1.75;
-  color: rgb(209 213 219);
+  color: var(--color-on-surface-variant);
 }
 
 .prose ul,
@@ -73,7 +141,7 @@ body {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   padding-left: 1.5rem;
-  color: rgb(209 213 219);
+  color: var(--color-on-surface-variant);
 }
 
 .prose li {
@@ -91,45 +159,49 @@ body {
 }
 
 .prose strong {
-  color: white;
+  color: var(--color-on-surface);
   font-weight: 600;
 }
 
 .prose em {
-  color: rgb(196 181 253);
+  font-style: italic;
 }
 
 .prose a {
-  color: rgb(129 140 248);
+  color: var(--color-primary);
   text-decoration: underline;
   text-underline-offset: 2px;
   transition: color 0.2s;
 }
 
 .prose a:hover {
-  color: rgb(165 180 252);
+  color: var(--color-secondary);
 }
 
 .prose blockquote {
-  border-left: 3px solid rgb(99 102 241);
+  border-left: 3px solid var(--color-primary);
   padding-left: 1rem;
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
-  color: rgb(156 163 175);
+  color: var(--color-on-surface-variant);
   font-style: italic;
+  background-color: var(--color-surface-container-low);
+  padding: 0.5rem 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .prose code {
-  background: rgb(31 41 55);
-  color: rgb(165 180 252);
+  background: var(--color-surface-variant);
+  color: var(--color-on-surface);
   padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
+  font-family: monospace;
 }
 
 .prose pre {
-  background: rgb(17 24 39);
-  border: 1px solid rgb(55 65 81);
+  background: var(--color-inverse-surface);
+  color: var(--color-inverse-on-surface);
   border-radius: 0.5rem;
   padding: 1rem;
   margin-top: 0.75rem;
@@ -139,6 +211,7 @@ body {
 
 .prose pre code {
   background: transparent;
+  color: inherit;
   padding: 0;
   font-size: 0.8125rem;
   line-height: 1.7;
@@ -149,25 +222,30 @@ body {
   border-collapse: collapse;
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .prose th {
-  background: rgb(31 41 55);
-  color: white;
-  padding: 0.5rem 0.75rem;
+  background: var(--color-surface-container-highest);
+  color: var(--color-on-surface);
+  padding: 0.75rem;
   text-align: left;
   font-weight: 600;
-  border-bottom: 2px solid rgb(75 85 99);
 }
 
 .prose td {
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid rgb(55 65 81);
-  color: rgb(209 213 219);
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-surface-variant);
+  color: var(--color-on-surface-variant);
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
 }
 
 .prose hr {
-  border-color: rgb(55 65 81);
+  border-color: var(--color-surface-variant);
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }

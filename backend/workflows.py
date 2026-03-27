@@ -15,14 +15,16 @@ def _get_llm():
     return ChatNVIDIA(
         model="meta/llama-3.1-70b-instruct",
         nvidia_api_key=api_key,
-        temperature=0.5,
+        temperature=0.5
     )
 
 
 # Step 1: Research using ReAct Agent
 def run_research(inputs: dict) -> dict:
     topic = inputs["topic"]
-    agent_executor = get_agent_executor()
+    use_web_search = inputs.get("use_web_search", True)
+    use_wikipedia = inputs.get("use_wikipedia", True)
+    agent_executor = get_agent_executor(use_web_search=use_web_search, use_wikipedia=use_wikipedia)
     result = agent_executor.invoke({"input": f"Research this topic comprehensively: {topic}"})
     return {
         "topic": topic,
@@ -31,7 +33,7 @@ def run_research(inputs: dict) -> dict:
     }
 
 
-def generate_report(topic: str) -> dict:
+def generate_report(topic: str, use_web_search: bool = True, use_wikipedia: bool = True) -> dict:
     """Full pipeline: research → route → report generation."""
     llm = _get_llm()
 
@@ -69,7 +71,7 @@ def generate_report(topic: str) -> dict:
         | RunnablePassthrough.assign(report=report_branch)
     )
 
-    result = research_pipeline.invoke({"topic": topic})
+    result = research_pipeline.invoke({"topic": topic, "use_web_search": use_web_search, "use_wikipedia": use_wikipedia})
     return {
         "topic": topic,
         "report": result["report"],
