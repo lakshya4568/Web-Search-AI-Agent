@@ -129,10 +129,10 @@ const ReportViewer: React.FC<ReportViewerProps> = ({ data, onNewResearch }) => {
 
       {/* Report Card */}
       <div className="relative group">
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-indigo-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+        <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-500/20 via-purple-500/20 to-indigo-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
         <div className="relative bg-gray-800 rounded-2xl border border-gray-700/50 overflow-hidden">
           {/* Report Header */}
-          <div className="px-8 py-5 bg-gradient-to-r from-gray-800 via-gray-800/95 to-gray-800 border-b border-gray-700/50">
+          <div className="px-8 py-5 bg-linear-to-r from-gray-800 via-gray-800/95 to-gray-800 border-b border-gray-700/50">
             <div className="flex items-center gap-3">
               <div className="flex gap-1.5">
                 <div className="w-3 h-3 rounded-full bg-red-500/80" />

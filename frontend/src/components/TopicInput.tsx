@@ -26,7 +26,7 @@ const TopicInput: React.FC<TopicInputProps> = ({ topic, setTopic, onSubmit, isLo
     <div className="w-full max-w-3xl mx-auto animate-fade-in-up">
       {/* Main Input Area */}
       <div className="relative group">
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500 blur-sm" />
+        <div className="absolute -inset-0.5 bg-linear-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500 blur-sm" />
         <div className="relative bg-gray-800/90 backdrop-blur-xl rounded-2xl border border-gray-700/50 p-6">
           <label htmlFor="topic-input" className="block text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider">
             Research Topic
@@ -53,7 +53,7 @@ const TopicInput: React.FC<TopicInputProps> = ({ topic, setTopic, onSubmit, isLo
               id="generate-report-btn"
               onClick={onSubmit}
               disabled={!topic.trim() || isLoading}
-              className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:from-indigo-600 disabled:hover:to-indigo-500 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 whitespace-nowrap"
+              className="px-8 py-4 bg-linear-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold rounded-xl transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:from-indigo-600 disabled:hover:to-indigo-500 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-[0.98] flex items-center gap-2 whitespace-nowrap"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
