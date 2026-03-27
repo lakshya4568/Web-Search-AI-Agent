@@ -16,7 +16,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ topic }) => {
     <div className="w-full max-w-2xl mx-auto animate-fade-in-up">
       <div className="relative">
         {/* Glow background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/10 rounded-2xl blur-xl" />
+        <div className="absolute inset-0 bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-indigo-500/10 rounded-2xl blur-xl" />
 
         <div className="relative bg-gray-800/80 backdrop-blur-xl rounded-2xl border border-gray-700/50 p-8 animate-pulse-glow">
           {/* Central spinner */}

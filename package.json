@@ -1,0 +1,18 @@
+{
+  "name": "ai-research-agent",
+  "version": "1.0.0",
+  "description": "AI Research Agent — Generate comprehensive research reports using NVIDIA AI & LangChain",
+  "private": true,
+  "scripts": {
+    "install:backend": "cd backend && python3 -m venv venv && ./venv/bin/pip install -r requirements.txt",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "start:backend": "cd backend && ./venv/bin/uvicorn main:app --reload --host 0.0.0.0 --port 8000",
+    "start:frontend": "cd frontend && npm run dev",
+    "dev": "npx -y concurrently -n \"API,WEB\" -c \"magenta,cyan\" \"npm run start:backend\" \"npm run start:frontend\"",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
